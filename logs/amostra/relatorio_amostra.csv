@@ -1,0 +1,6 @@
+﻿run_id;horario;id;protocolo;categoria;origem;decisao;prioridade;pontos;duplicada_de;resultado;motivo
+20261115-135816;2026-11-15T13:58:16;93;ZC-000093;calcada_danificada;simulado;triada;baixa;1;;ok;calçada danificada (+1) = 1 pontos, prioridade baixa.
+20261115-135816;2026-11-15T13:58:16;52;ZC-000052;outro;simulado;triada;baixa;1;;ok;outro (+1) = 1 pontos, prioridade baixa.
+20261115-135827;2026-11-15T13:58:27;201;ZC-000201;buraco;cidadao;triada;alta;6;;ok;buraco na via (+3) + IA confirmou com 89% (+1) + chuva prevista de 15 mm em 24 h (+2) = 6 pontos, prioridade alta.
+20261115-135827;2026-11-15T13:58:27;202;ZC-000202;buraco;cidadao;duplicada;;;201;ok;Mesmo problema de ZC-000201: mesma categoria, a 9 m, ainda aberto. O registro conta como mais uma confirmação.
+20261115-135827;2026-11-15T13:58:27;203;ZC-000203;buraco;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.

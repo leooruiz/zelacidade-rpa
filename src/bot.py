@@ -1,56 +1,62 @@
 """
-WARNING:
+Robô "Triagem ZelaCidade" (BotCity, template Custom).
 
-Please make sure you install the bot dependencies with `pip install --upgrade -r requirements.txt`
-in order to get all the dependencies on your Python environment.
+Busca as ocorrências novas na API do MVP, valida, detecta duplicadas, calcula a prioridade com o motivo,
+devolve a triagem ao MVP, avisa por e-mail, publica os indicadores da camada Ouro e grava log e relatório.
 
-Also, if you are using PyCharm or another IDE, make sure that you use the SAME Python interpreter
-as your IDE.
+Instale as dependências com `pip install --upgrade -r requirements.txt` e rode com `python bot.py`.
+No Windows, o Agendador de Tarefas roda o robô a cada 30 minutos (veja o README).
 
-If you get an error like:
-```
-ModuleNotFoundError: No module named 'botcity'
-```
-
-This means that you are likely using a different Python interpreter than the one used to install the dependencies.
-To fix this, you can either:
-- Use the same interpreter as your IDE and install your bot with `pip install --upgrade -r requirements.txt`
-- Use the same interpreter as the one used to install the bot (`pip install --upgrade -r requirements.txt`)
-
-Please refer to the documentation for more information at
-https://documentation.botcity.dev/tutorials/custom-automations/python-custom/
+Documentação do template: https://documentation.botcity.dev/tutorials/custom-automations/python-custom/
 """
+
+import logging
+import sys
 
 # Import for integration with BotCity Maestro SDK
 from botcity.maestro import *
 
+from triagem import config as cfg
+from triagem import execucao
+
 # Disable errors if we are not connected to Maestro
 BotMaestroSDK.RAISE_NOT_CONNECTED = False
 
+STATUS_MAESTRO = {
+    execucao.SUCESSO: AutomationTaskFinishStatus.SUCCESS,
+    execucao.SUCESSO_COM_FALHAS: AutomationTaskFinishStatus.PARTIALLY_COMPLETED,
+}
 
-def main():
+
+def main() -> int:
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)-7s %(message)s", datefmt="%H:%M:%S")
+
     # Runner passes the server url, the id of the task being executed,
     # the access token and the parameters that this task receives (when applicable).
     maestro = BotMaestroSDK.from_sys_args()
     ## Fetch the BotExecution with details from the task, including parameters
     execution = maestro.get_execution()
 
-    print(f"Task ID is: {execution.task_id}")
-    print(f"Task Parameters are: {execution.parameters}")
+    try:
+        configuracao = cfg.carregar()
+    except cfg.ConfigInvalida as exc:
+        codigo = execucao.falha_de_configuracao(str(exc), cfg.config_para_alerta())
+        maestro.finish_task(task_id=execution.task_id, status=AutomationTaskFinishStatus.FAILED,
+                            message=f"Configuração inválida: {exc}")
+        return codigo
 
-    # Implement here your logic...
-    ...
-
-    # Uncomment to mark this task as finished on BotMaestro
-    # maestro.finish_task(
-    #     task_id=execution.task_id,
-    #     status=AutomationTaskFinishStatus.SUCCESS,
-    #     message="Task Finished OK.",
-    #     total_items=0,
-    #     processed_items=0,
-    #     failed_items=0
-    # )
+    resumo = execucao.executar(configuracao)
+    maestro.finish_task(
+        task_id=execution.task_id,
+        status=STATUS_MAESTRO.get(resumo.codigo_saida, AutomationTaskFinishStatus.FAILED),
+        message=f"{resumo.situacao}: {resumo.triados} triadas, {resumo.duplicados} duplicadas, "
+                f"{resumo.precisa_info} sem informação, {resumo.falhas} falhas",
+        total_items=resumo.lidos,
+        processed_items=resumo.lidos - resumo.falhas,
+        failed_items=resumo.falhas,
+    )
+    return resumo.codigo_saida
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())

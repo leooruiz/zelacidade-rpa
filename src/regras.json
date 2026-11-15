@@ -1,0 +1,23 @@
+{
+  "descricao": "Regras do robô Triagem ZelaCidade. Mudar aqui muda a decisão sem mexer no código.",
+  "espera_tentativas_s": [5, 15, 45],
+  "duplicidade": {
+    "raio_m": 30,
+    "janela_dias": 14,
+    "status_abertos": ["triada", "em_andamento"]
+  },
+  "prioridade": {
+    "pontos_categoria": {"buraco": 3, "obstaculo": 3, "iluminacao": 2, "padrao": 1},
+    "confirmacoes_por_ponto": 2,
+    "confianca_ia_min": 0.7,
+    "chuva_mm_min": 10,
+    "pontos_chuva": 2,
+    "categorias_chuva": ["buraco"],
+    "alta_min": 5,
+    "media_min": 3
+  },
+  "painel": {
+    "padrao": "ouro_painel_*.json",
+    "max_idade_dias": 3
+  }
+}

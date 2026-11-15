@@ -1,0 +1,14 @@
+.env
+venv/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+src/TriagemZelaCidade.zip
+entrada/ouro/*.json
+entrada/ouro/publicados/
+entrada/rejeitados/*
+!entrada/rejeitados/.gitkeep
+saida/
+logs/*.jsonl
+!logs/amostra/
