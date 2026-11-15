@@ -9,7 +9,7 @@
 | Item | Descrição |
 |---|---|
 | Produto | ZelaCidade: o morador registra problemas de manutenção em espaços públicos com foto e local; a IA sugere a categoria, um robô faz a triagem, a comunidade confirma e a organização responsável acompanha num painel |
-| Cidadão e território | Moradores do bairro piloto na Zona Norte de São Paulo |
+| Cidadão e território | Moradores da Zona Norte de São Paulo, na área da Subprefeitura Santana/Tucuruvi: Santana, Jardim São Paulo, Mandaqui e Tucuruvi |
 | Problema | Buracos, calçadas quebradas, iluminação apagada e obstáculos ficam sem registro organizado e sem prioridade clara |
 | Este robô | Python com o template BotCity (Custom); roda no Windows a cada 30 minutos |
 | MVP | <https://app-zelacidade-gs-99431.azurewebsites.net> · repo <https://github.com/brunoventuri01/zelacidade> |
