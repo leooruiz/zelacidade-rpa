@@ -59,8 +59,9 @@ class Notificador:
         )
 
     def aviso_morador(self, ocorrencia: dict, texto: str) -> bool:
-        """Só com e-mail E consentimento (a API só devolve o e-mail de quem consentiu)."""
-        if not (ocorrencia.get("consentimento") and ocorrencia.get("autor_email")):
+        """Só com e-mail E consentimento (a API só devolve o e-mail de quem consentiu). Registro simulado nunca
+        gera e-mail: os endereços dos dados simulados são fictícios (@exemplo.com)."""
+        if ocorrencia.get("simulado") or not (ocorrencia.get("consentimento") and ocorrencia.get("autor_email")):
             return False
         return self.enviar(
             ocorrencia["autor_email"],

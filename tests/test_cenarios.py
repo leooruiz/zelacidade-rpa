@@ -123,3 +123,39 @@ def test_configuracao_invalida(tmp_path):
     (tmp_path / "regras.json").write_text('{"prioridade": {}}', encoding="utf-8")
     with pytest.raises(ConfigInvalida, match="faltam"):
         carregar_regras(tmp_path / "regras.json")
+
+
+def test_aviso_ao_morador_so_para_registro_real_com_consentimento(config):
+    """Registro simulado tem e-mail fictício (@exemplo.com): o robô não manda aviso para ele."""
+    from triagem.notificacao import Notificador
+
+    enviados = []
+
+    class SMTPFalso:
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def starttls(self):
+            pass
+
+        def login(self, *args):
+            pass
+
+        def send_message(self, mensagem):
+            enviados.append(mensagem["To"])
+
+    config.smtp_host, config.smtp_usuario, config.smtp_senha = "smtp.teste", "robo@teste.com", "senha"
+    notificador = Notificador(config, smtp_factory=SMTPFalso)
+    simulado = ocorrencia(1, origem="simulado", consentimento=True, autor_email="morador001@exemplo.com")
+    real = ocorrencia(2, consentimento=True, autor_email="vizinho@teste.com")
+    sem_consentimento = ocorrencia(3, consentimento=False, autor_email="outro@teste.com")
+    assert notificador.aviso_morador(simulado, "texto") is False
+    assert notificador.aviso_morador(sem_consentimento, "texto") is False
+    assert notificador.aviso_morador(real, "texto") is True
+    assert enviados == ["vizinho@teste.com"]

@@ -137,4 +137,5 @@ Também há testes para item com erro, item inconsistente, painel inválido, aus
 - A `RPA_API_KEY` e a senha do e-mail ficam no `.env`, fora do Git.
 - O log e o relatório guardam só o id e o protocolo da ocorrência, nunca e-mail ou nome.
 - O e-mail ao morador só sai se ele deu e-mail e consentimento. A API do MVP nem devolve o e-mail de quem não consentiu.
+- Registros simulados nunca recebem e-mail: os endereços deles são fictícios (`@exemplo.com`).
 - O e-mail do robô é uma conta de teste do grupo.
