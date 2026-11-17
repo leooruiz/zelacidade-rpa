@@ -84,5 +84,7 @@ def arquivar(caminho: Path) -> Path:
     pasta = caminho.parent / "publicados"
     pasta.mkdir(parents=True, exist_ok=True)
     destino = pasta / caminho.name
+    if destino.exists():  # mesmo nome já publicado antes (novo export no mesmo dia): guarda os dois
+        destino = pasta / f"{caminho.stem}_{datetime.now().strftime('%Y%m%d-%H%M%S')}{caminho.suffix}"
     shutil.move(str(caminho), destino)
     return destino

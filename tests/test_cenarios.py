@@ -159,3 +159,20 @@ def test_aviso_ao_morador_so_para_registro_real_com_consentimento(config):
     assert notificador.aviso_morador(sem_consentimento, "texto") is False
     assert notificador.aviso_morador(real, "texto") is True
     assert enviados == ["vizinho@teste.com"]
+
+
+def test_arquivar_mesmo_nome_nao_sobrescreve(tmp_path):
+    from triagem.painel import arquivar
+
+    publicados = tmp_path / "publicados"
+    publicados.mkdir()
+    (publicados / "ouro_painel_2026-11-17.json").write_text("lote 1", encoding="utf-8")
+    novo = tmp_path / "ouro_painel_2026-11-17.json"
+    novo.write_text("lote 2", encoding="utf-8")
+
+    destino = arquivar(novo)
+
+    assert destino.parent == publicados and destino.name != "ouro_painel_2026-11-17.json"
+    assert destino.read_text(encoding="utf-8") == "lote 2"
+    assert (publicados / "ouro_painel_2026-11-17.json").read_text(encoding="utf-8") == "lote 1"
+    assert not novo.exists()
