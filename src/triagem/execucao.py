@@ -153,6 +153,7 @@ def _publicar_painel(config: Config, api: ZelaAPI, auditoria: Auditoria, resumo:
         resumo.painel = "ausente"
         auditoria.evento("painel", situacao="ausente",
                          mensagem="Nenhum ouro_painel_*.json em entrada/ouro; o painel atual foi mantido.")
+        log.info("Nenhum ouro_painel_*.json em entrada/ouro: o painel atual do MVP foi mantido")
         return
     try:
         corpo = painel_ouro.ler(arquivo, regras["max_idade_dias"])
@@ -163,6 +164,8 @@ def _publicar_painel(config: Config, api: ZelaAPI, auditoria: Auditoria, resumo:
         auditoria.evento("painel", situacao="rejeitado", arquivo=arquivo.name, motivo=str(exc),
                          movido_para=str(destino.relative_to(RAIZ)) if destino.is_relative_to(RAIZ) else destino.name)
         notificador.alerta_responsavel("Arquivo do painel rejeitado", f"{arquivo.name}: {exc}")
+        log.warning("Arquivo do painel rejeitado: %s (%s). Movido para entrada/rejeitados; painel atual mantido",
+                    arquivo.name, exc)
         return
     try:
         api.publicar_painel(corpo)
@@ -171,6 +174,7 @@ def _publicar_painel(config: Config, api: ZelaAPI, auditoria: Auditoria, resumo:
         resumo.falhas += 1
         resumo.erros.append(f"publicar painel: {exc}")
         auditoria.evento("painel", situacao="falhou", arquivo=arquivo.name, motivo=str(exc))
+        log.error("Falha ao publicar o painel de %s: %s", arquivo.name, exc)
         return
     painel_ouro.arquivar(arquivo)
     resumo.painel = "publicado"
