@@ -1,0 +1,11 @@
+﻿run_id;horario;id;protocolo;categoria;origem;decisao;prioridade;pontos;duplicada_de;resultado;motivo
+20261116-195036;2026-11-16T19:51:05;4;ZC-000004;buraco;simulado;triada;alta;6;;ok;buraco na via (+3) + 6 confirmações (+3) = 6 pontos, prioridade alta.
+20261116-195036;2026-11-16T19:51:14;201;ZC-000201;obstaculo;robo;triada;media;3;;ok;Registro de teste de bancada do robô Maker (Bancada Maker Lab FIAP). obstáculo (+3) = 3 pontos, prioridade média.
+20261116-220630;2026-11-16T22:06:36;202;ZC-000202;calcada_danificada;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.
+20261116-220630;2026-11-16T22:06:37;203;ZC-000203;calcada_danificada;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.
+20261116-220630;2026-11-16T22:06:38;204;ZC-000204;calcada_danificada;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.
+20261116-220630;2026-11-16T22:06:39;205;ZC-000205;buraco;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.
+20261116-220630;2026-11-16T22:06:40;206;ZC-000206;calcada_danificada;cidadao;precisa_info;;;;ok;Local fora da área piloto (Santana, Jardim São Paulo, Mandaqui, Tucuruvi). Confirme o endereço ou registre no bairro atendido.
+20261116-220630;2026-11-16T22:06:41;207;ZC-000207;buraco;cidadao;triada;media;4;;ok;buraco na via (+3) + IA confirmou com 74% (+1) = 4 pontos, prioridade média.
+20261116-220630;2026-11-16T22:06:46;208;ZC-000208;buraco;cidadao;duplicada;;;207;ok;Mesmo problema de ZC-000207: mesma categoria, a 8 m, ainda aberto. O registro conta como mais uma confirmação.
+20261116-221754;2026-11-16T22:18:00;209;ZC-000209;buraco;cidadao;triada;media;3;;ok;buraco na via (+3) = 3 pontos, prioridade média.

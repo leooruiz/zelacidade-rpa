@@ -70,7 +70,7 @@ O robô conversa com o MVP pela API, sem clicar na tela. Isso é mais estável e
 | `src/regras.json` | Limites e pesos das regras |
 | `tests/` | `pytest` das regras e dos 3 cenários: sucesso, decisão e falha |
 | `docs/` | Fluxo em BPMN (`.bpmn` e `.png`) |
-| `logs/amostra/` | Amostra de log e de relatório de um teste local com dados simulados |
+| `logs/amostra/` | Amostras de log e de relatório: um teste local e os logs de produção de 16 e 17/11 |
 | `assets/` | Prints usados no PDF e no vídeo |
 | `entrada/ouro/`, `entrada/rejeitados/` | Onde entra o JSON da Ouro e para onde vão os inválidos |
 
@@ -131,6 +131,23 @@ Também há testes para item com erro, item inconsistente, painel inválido, aus
   ```powershell
   $env:ZELA_API_URL="http://127.0.0.1:9"; python bot.py; Remove-Item Env:ZELA_API_URL
   ```
+
+## Vídeo e evidências
+
+- **Vídeo demonstrativo (até 3 min):** https://www.youtube.com/watch?v=AuMV6zlAMrI
+- **Prints** da execução em produção, das exceções e da integração com o MVP: [`assets/`](assets/)
+- **Logs de produção** de 16 e 17/11/2026 (só id e protocolo, sem dados pessoais): [`logs/amostra/`](logs/amostra/)
+
+| Evidência | Arquivo |
+|---|---|
+| Triagem real de 16/11: 5 fora da área, 1 média, 1 duplicada | [assets/02_execucao_real_16-11.png](assets/02_execucao_real_16-11.png) |
+| Motivo da triagem na linha do tempo do MVP | [assets/03_linha_do_tempo_ZC-000207.png](assets/03_linha_do_tempo_ZC-000207.png) |
+| Duplicada somada como confirmação | [assets/04_duplicada_ZC-000208.png](assets/04_duplicada_ZC-000208.png) |
+| API fora: 4 tentativas e código 3 | [assets/10_falha_api_tentativas.png](assets/10_falha_api_tentativas.png) |
+| Painel inválido rejeitado | [assets/12_painel_invalido_rejeitado.png](assets/12_painel_invalido_rejeitado.png) |
+| Painel publicado na tela do MVP | [assets/19_tela_painel_mvp.png](assets/19_tela_painel_mvp.png) |
+
+Limitação conhecida: a ZC-000207 e a ZC-000208 são buracos diferentes a 8 m um do outro. A regra de duplicidade usa só categoria, distância e tempo, então somou a 208 como confirmação; um raio menor para buraco ou a comparação das fotos resolveria.
 
 ## Segurança e LGPD
 
